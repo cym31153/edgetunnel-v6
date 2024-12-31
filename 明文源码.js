@@ -1743,6 +1743,7 @@ function 生成本地订阅(host, UUID, noTLS, newAddressesapi, newAddressescsv,
 			}
 
 			const httpPorts = ["8080", "8880", "2052", "2082", "2086", "2095"];
+			```
 			if (!isValidIPv4(address) && port == "-1") {
 				for (let httpPort of httpPorts) {
 					if (address.includes(httpPort)) {
@@ -1751,6 +1752,7 @@ function 生成本地订阅(host, UUID, noTLS, newAddressesapi, newAddressescsv,
 					}
 				}
 			}
+			```
 			if (port == "-1") port = "80";
 
 			let 伪装域名 = host;
