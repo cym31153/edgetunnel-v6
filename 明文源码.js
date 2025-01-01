@@ -370,6 +370,9 @@ async function handleTCPOutBound(remoteSocket, addressType, addressRemote, portR
 			return regex.test(address);
 		});
 	}
+    if (!isValidIPv6(addressRemote)) {
+        throw new Error(`IPv4 addresses are not allowed: ${addressRemote}`);
+    }
 
 	async function connectAndWrite(address, port, socks = false) {
 		log(`connected to ${address}:${port}`);
