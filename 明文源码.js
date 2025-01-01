@@ -11,10 +11,7 @@ let subEmoji = 'true';
 let socks5Address = '';
 let parsedSocks5Address = {};
 let enableSocks = false;
-function isValidIPv6(address) {
-    const ipv6Regex = /^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]).){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]).){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$/;
-    return ipv6Regex.test(address);
-}
+
 let fakeUserID;
 let fakeHostName;
 let noTLS = 'false';
@@ -370,9 +367,6 @@ async function handleTCPOutBound(remoteSocket, addressType, addressRemote, portR
 			return regex.test(address);
 		});
 	}
-    if (!isValidIPv6(addressRemote)) {
-        throw new Error(`IPv4 addresses are not allowed: ${addressRemote}`);
-    }
 
 	async function connectAndWrite(address, port, socks = false) {
 		log(`connected to ${address}:${port}`);
@@ -530,14 +524,6 @@ function process维列斯Header(维列斯Buffer, userID) {
 			message: 'invalid data',
 		};
 	}
-	    // Ensure the address is not IPv4
-    // Ensure the address is not IPv4
-    if (!isValidIPv6(addressValue)) {
-        return {
-            hasError: true,
-            message: `IPv4 addresses are not allowed: ${addressValue}`,
-        };
-    }
 
 	// 解析 维列斯 协议版本（第一个字节）
 	const version = new Uint8Array(维列斯Buffer.slice(0, 1));
@@ -1757,7 +1743,6 @@ function 生成本地订阅(host, UUID, noTLS, newAddressesapi, newAddressescsv,
 			}
 
 			const httpPorts = ["8080", "8880", "2052", "2082", "2086", "2095"];
-			```
 			if (!isValidIPv4(address) && port == "-1") {
 				for (let httpPort of httpPorts) {
 					if (address.includes(httpPort)) {
@@ -1766,7 +1751,6 @@ function 生成本地订阅(host, UUID, noTLS, newAddressesapi, newAddressescsv,
 					}
 				}
 			}
-			```
 			if (port == "-1") port = "80";
 
 			let 伪装域名 = host;
