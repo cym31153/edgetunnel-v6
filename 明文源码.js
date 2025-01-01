@@ -11,7 +11,10 @@ let subEmoji = 'true';
 let socks5Address = '';
 let parsedSocks5Address = {};
 let enableSocks = false;
-
+function isValidIPv6(address) {
+    const ipv6Regex = /^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]).){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]).){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$/;
+    return ipv6Regex.test(address);
+}
 let fakeUserID;
 let fakeHostName;
 let noTLS = 'false';
@@ -524,6 +527,14 @@ function process维列斯Header(维列斯Buffer, userID) {
 			message: 'invalid data',
 		};
 	}
+	    // Ensure the address is not IPv4
+    // Ensure the address is not IPv4
+    if (!isValidIPv6(addressValue)) {
+        return {
+            hasError: true,
+            message: `IPv4 addresses are not allowed: ${addressValue}`,
+        };
+    }
 
 	// 解析 维列斯 协议版本（第一个字节）
 	const version = new Uint8Array(维列斯Buffer.slice(0, 1));
